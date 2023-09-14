@@ -8,7 +8,6 @@ const productSchema = mongoose.Schema(
         },
         description: {
             type: String,
-            required: false
         },
         quantity: {
             type: Number,
@@ -41,6 +40,8 @@ const productSchema = mongoose.Schema(
     }
 )
 
-const Product = mongoose.model('Product', productSchema);
+const Student = mongoose.model('student', productSchema);
+const LostandFound = mongoose.model('lostandfound', productSchema);
+const Seller = mongoose.model('seller', productSchema);
 
-module.exports = Product;
+module.exports = {Student, LostandFound, Seller};

@@ -2,7 +2,7 @@ require('dotenv').config()
 
 let mongoose = require('mongoose')
 
-async function conntectDB(){
+async function connectDB(){
     try{
         await mongoose.connect(process.env.MONGO_URI)
         console.log('Database Connected Succesfully');
@@ -13,4 +13,4 @@ async function conntectDB(){
 
 
 
-module.exports = conntectDB
+module.exports = connectDB
