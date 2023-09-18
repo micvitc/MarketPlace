@@ -1,12 +1,22 @@
 const express = require("express");
 const app = express();
+var bodyParser = require('body-parser')
 const Product = require("./models/product")
+const PORT = 3000
 
 const connectDB = require('./database')
 
-const PORT = 3000
+// Middleware
+// app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.use(express.json())
+// Routes
+const reportRoute = require('./routes/Report')
+app.use('/report',reportRoute)
+
+
+
 
 app.get("/", (req, res) => {
   res.send("hello world");
