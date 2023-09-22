@@ -15,6 +15,9 @@ app.use(bodyParser.json())
 const reportRoute = require('./routes/Report')
 app.use('/report',reportRoute)
 
+const lostAndFoundRoute = require('./routes/LostAndFound')
+app.use('/lostandfound', lostAndFoundRoute)
+
 
 
 
@@ -33,6 +36,10 @@ app.post("/student", async(req, res) => {
 })
 
 app.listen(PORT || 8080,()=>{
+  try{
     console.log(`Server is running on  http://localhost:${PORT}`)
     connectDB()
+  }catch(err){
+    console.log("Unable to start server: " + err)
+  }
 })

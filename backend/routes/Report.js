@@ -67,14 +67,14 @@ router.put("/:reportId", async (req, res) => {
 router.delete("/:reportId", async (req, res) => {
     try {
       const reportId = req.params.reportId;  
-      const existingReport = await Report.findById(reportId);
+      const existingReport = await Report.findByIdAndRemove(reportId);
   
-      if (!existingReport) {
-        return res.status(404).json({ message: "Report not found" });
-      }
+      // if (!existingReport) {
+      //   return res.status(404).json({ message: "Report not found" });
+      // }
   
-      await existingReport.remove();
-      res.status(200).json({ message: "Report deleted" });
+      // await existingReport.remove();
+      res.status(200).json({ message: "Report deleted", existingReport });
     } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Internal Server Error" });
