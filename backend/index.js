@@ -15,6 +15,9 @@ app.use(bodyParser.json())
 const reportRoute = require('./routes/Report')
 app.use('/report',reportRoute)
 
+const lostAndFoundRoute = require('./routes/LostAndFound')
+app.use('/lostandfound', lostAndFoundRoute)
+
 const studentRoute = require('./routes/Student')
 app.use('/student', studentRoute)
 
