@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const productSchema = mongoose.Schema(
+const lostandfoundSchema = mongoose.Schema(
     {
         name: {
             type:String,
@@ -9,18 +9,15 @@ const productSchema = mongoose.Schema(
         description: {
             type: String,
         },
-        quantity: {
-            type: Number,
+        // lost = 0, found = 1
+        lostorfound: {
+            type: Boolean,
             required: true,
             default: 0
         },
-        price: {
-            type: Number,
-            required: true 
-        },
-        reviews: {
-            type: Array,
-            default: []
+        resolved: {
+            type: Boolean,
+            default: false
         },
         tags: {
             type: Array,
@@ -44,7 +41,5 @@ const productSchema = mongoose.Schema(
     }
 )
 
-const Student = mongoose.model('student', productSchema);
-const Seller = mongoose.model('seller', productSchema);
-
-module.exports = {Student, Seller};
+const LostAndFound = mongoose.model('lostandfound', lostandfoundSchema);
+module.exports = LostAndFound;
