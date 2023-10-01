@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 
 // Routes
 const userRoute = require('./routes/User')
-app.user('/user', userRoute)
+app.use('/user', userRoute)
 
 const reportRoute = require('./routes/Report')
 app.use('/report',reportRoute)
