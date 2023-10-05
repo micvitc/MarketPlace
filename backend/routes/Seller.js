@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const {getProducts, getProduct, createProduct, updateProduct, removeProduct} = require("../controllers/studentController");
+const {getProducts, getProduct, createProduct, updateProduct, removeProduct} = require("../controllers/sellerController");
 
 // Fetch ALL reports from database
 router.get("/", getProducts);
