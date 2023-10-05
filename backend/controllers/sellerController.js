@@ -3,8 +3,8 @@ const User = require("../models/user")
 
 const getProducts = async(req, res) => {
     try {
-        const students = await Product.Student.find({})
-        res.status(200).json(students);
+        const sellers = await Product.Seller.find({})
+        res.status(200).json(sellers);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({message: error.message});
@@ -15,13 +15,13 @@ const getProduct = async(req, res) => {
     try {
         const { id } = req.params;
 
-        const student = await Product.Student.findById(id);
+        const seller = await Product.Seller.findById(id);
 
-        if (!student) {
+        if (!seller) {
             return res.status(404).json({ message: `Product with ${id} not found` });
           }
 
-        res.status(200).json(student);
+        res.status(200).json(seller);
     } catch (error) {
         console.log(error.message);
         res.status(500).json({message: error.message});
@@ -30,8 +30,8 @@ const getProduct = async(req, res) => {
 
 const createProduct = async(req, res) => {
     try {
-        const student = await Product.Student.create(req.body);
-        res.status(200).json(student);
+        const seller = await Product.Seller.create(req.body);
+        res.status(200).json(seller);
     } catch (error) {
         console.log(error.message)
         res.status(500).json({message: "Internal Server Error"})
@@ -48,16 +48,16 @@ const updateProduct = async(req, res) => {
             return res.status(404).json({message: `Cannot find user with id ${uid}`});
         }
         userType = user['userType'];
-        const student = await Product.Student.findById(id);
-        if(!student){
+        const seller = await Product.Seller.findById(id);
+        if(!seller){
             return res.status(404).json({message: `Cannot find product with id ${id}`});
         }
-        if((student['created_by']==uid) || (userType == 'admin')){
-            await Product.Student.findByIdAndUpdate(id, req.body);
-            const updatedStudent = await Product.Student.findById(id);
-            return res.status(200).json(updatedStudent);
+        if((seller['created_by']==uid) || (userType == 'admin')){
+            await Product.Seller.findByIdAndUpdate(id, req.body);
+            const updatedSeller = await Product.Seller.findById(id);
+            return res.status(200).json(updatedSeller);
         }
-        return res.status(403).json({message: "You don't have the permission to modify this object"})
+        return res.status(403).json({message: "You don't have the permission to modify the object"})
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({message: "Internal Server Error"});
@@ -74,16 +74,16 @@ const removeProduct = async(req, res) => {
             return res.status(404).json({message: `Cannot find user with id ${uid}`});
         }
         userType = user['userType'];
-        const student = await Product.Student.findById(id);
-        if(!student){
+        const seller = await Product.Seller.findById(id);
+        if(!seller){
             return res.status(404).json({message: `Cannot find product with id ${id}`});
         }
-        if((student['created_by']==uid) || (userType == 'admin')){
-            await Product.Student.findByIdAndDelete(id, req.body);
-            const updatedStudent = await Product.Student.findById(id);
-            return res.status(200).json(updatedStudent);
+        if((seller['created_by']==uid) || (userType == 'admin')){
+            await Product.Seller.findByIdAndDelete(id, req.body);
+            const updatedSeller = await Product.Seller.findById(id);
+            return res.status(200).json(updatedSeller);
         }
-        return res.status(403).json({message: "You don't have the permission to delete this object"})
+        return res.status(403).json({message: "You don't have the permission to delete the object"})
     } catch (error) {
         console.log(error.message);
         return res.status(500).json({message: "Internal Server Error"});

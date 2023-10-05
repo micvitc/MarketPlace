@@ -24,6 +24,9 @@ app.use('/lostandfound', lostAndFoundRoute)
 const studentRoute = require('./routes/Student')
 app.use('/student', studentRoute)
 
+const sellerRoute = require('./routes/Seller')
+app.use('/seller', sellerRoute)
+
 
 app.get("/", (req, res) => {
   res.send("hello world");

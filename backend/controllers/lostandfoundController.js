@@ -3,10 +3,10 @@ const LostAndFound = require("../models/lostandfound");
 const getLostAndFounds = async (req, res) => {
   try {
     const LostAndFounds = await LostAndFound.find();
-    res.status(200).json(LostAndFounds);
+    return res.status(200).json(LostAndFounds);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -19,10 +19,10 @@ const getLostAndFound = async (req, res) => {
       return res.status(404).json({ message: "LostAndFound not found" });
     }
 
-    res.status(200).json(existingLostAndFound);
+    return res.status(200).json(existingLostAndFound);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -38,17 +38,17 @@ const getLostAndFoundOfUser = async (req, res) => {
         res.status(200).json(existingLostAndFound);
     } catch (error) {
         console.error(error.message);
-        res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
 
 const createLostAndFound = async (req, res) => {
   try {
     const result = await LostAndFound.create(req.body);
-    res.status(200).json(result);
+    return res.status(200).json(result);
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -67,11 +67,11 @@ const updatedLostAndFound = async (req, res) => {
       Object.assign(existingLostAndFound, updatedData);
       const updatedLostAndFound = await existingLostAndFound.save();
 
-      res.status(200).json(updatedLostAndFound);
+      return res.status(200).json(updatedLostAndFound);
     }
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -88,15 +88,13 @@ const deleteLostAndFound = async (req, res) => {
         return res.status(401).json({ message: "Not Authorized" });
     }else{
         await existingLostAndFound.remove();
-        res.status(200).json({ message: "LostAndFound deleted", existingLostAndFound });
+        return res.status(200).json({ message: "LostAndFound deleted", existingLostAndFound });
     } 
 
-    res
-      .status(200)
-      .json({ message: "LostAndFound deleted", existingLostAndFound });
+    res.status(200).json({ message: "LostAndFound deleted", existingLostAndFound });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -112,10 +110,10 @@ const resolveLostAndFound = async (req, res) => {
     existingLostAndFound.resolved = true;
     const updatedLostAndFound = await existingLostAndFound.save();
 
-    res.status(200).json(updatedLostAndFound);
+    return res.status(200).json(updatedLostAndFound);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

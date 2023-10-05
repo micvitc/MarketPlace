@@ -23,10 +23,10 @@ router.get("/:reportId", async (req, res) => {
         return res.status(404).json({ message: "Report not found" });
       }
   
-      res.status(200).json(report);
+      return res.status(200).json(report);
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   });
 
@@ -34,10 +34,10 @@ router.get("/:reportId", async (req, res) => {
 router.post("/create", async (req, res) => {
   try {
     const report = await Report.create(req.body);
-    res.status(200).json(report);
+    return res.status(200).json(report);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({ message: "Couldn't create a new Report." });
+    return res.status(500).json({ message: "Couldn't create a new Report." });
   }
 });
 
@@ -56,10 +56,10 @@ router.put("/:reportId", async (req, res) => {
       Object.assign(existingReport, updatedData);
       const updatedReport = await existingReport.save();
   
-      res.status(200).json(updatedReport);
+      return res.status(200).json(updatedReport);
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
   });
 
@@ -74,10 +74,10 @@ router.delete("/:reportId", async (req, res) => {
       // }
   
       // await existingReport.remove();
-      res.status(200).json({ message: "Report deleted", existingReport });
+      return res.status(200).json({ message: "Report deleted", existingReport });
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
 })
 
@@ -94,10 +94,10 @@ router.put("/resolve/:reportId", async (req, res) => {
       existingReport.resolved = true
       const updatedReport = await existingReport.save();
   
-      res.status(200).json(updatedReport);
+      return res.status(200).json(updatedReport);
     } catch (error) {
       console.error(error.message);
-      res.status(500).json({ message: "Internal Server Error" });
+      return res.status(500).json({ message: "Internal Server Error" });
     }
 })
 

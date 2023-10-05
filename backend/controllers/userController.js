@@ -3,10 +3,10 @@ const User = require("../models/user");
 const getUsers = async(req, res) => {
     try {
         const users = await User.find({})
-        res.status(200).json(users);
+        return res.status(200).json(users);
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({message: error.message});
+        return res.status(500).json({message: error.message});
     }
 }
 
@@ -20,20 +20,20 @@ const getUser = async(req, res) => {
             return res.status(404).json({ message: `User with ${id} not found` });
           }
 
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({message: error.message});
+        return res.status(500).json({message: error.message});
     }
 }
 
 const createUser = async(req, res) => {
     try {
         const user = await User.create(req.body);
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({message: "Internal Server Error"})
+        return res.status(500).json({message: "Internal Server Error"})
     }
 }
 
@@ -43,14 +43,14 @@ const updateUser = async(req, res) => {
 
         const user = await User.findByIdAndUpdate(id, req.body);
         if(!user){
-        res.status(404).json({message: `Cannot find User with id ${id}`});
+        return res.status(404).json({message: `Cannot find User with id ${id}`});
         }
 
         const updateduser = await User.findById(id);
-        res.status(200).json(updateduser);
+        return res.status(200).json(updateduser);
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({message: "Internal Server Error"});
+        return res.status(500).json({message: "Internal Server Error"});
     }
 }
 
@@ -61,12 +61,12 @@ const removeUser = async(req, res) => {
         const user = await User.findByIdAndDelete(id);
 
         if(!user){
-            res.status(404).json({message: `Cannot find User with id ${id}`});
+            return res.status(404).json({message: `Cannot find User with id ${id}`});
         }
 
-        res.status(200).json("User removed");
+        return res.status(200).json("User removed");
     } catch (error) {
-        res.status(500).json({message: "Internal Server Error"})
+        return res.status(500).json({message: "Internal Server Error"})
     }
 }
 
