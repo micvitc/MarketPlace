@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {getLostAndFoundOfUser,getLostAndFounds,getLostAndFound,createLostAndFound,updatedLostAndFound,deleteLostAndFound,resolveLostAndFound} = require('../controllers/lostandfoundController')
-const AuthUser=require('../service/userAuth');
+const AuthUser =require('../service/userAuth');
 
 // Fetch all lost and found entries
 router.get("/",AuthUser, getLostAndFounds);

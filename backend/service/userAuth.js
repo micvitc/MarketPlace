@@ -1,6 +1,7 @@
-const jwt=require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
+const AuthUser= async (req, res, next)=>{
+  
 
-function AuthUser(req, res, next){
   const token = req.headers.authorization; // Assuming the token is sent in the "Authorization" header
   const secret = 'MYWEBTOKEN'; // Replace with your actual secret
 
@@ -17,3 +18,4 @@ function AuthUser(req, res, next){
   });
 };
 
+module.exports=AuthUser;
