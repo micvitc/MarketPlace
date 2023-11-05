@@ -1,21 +1,21 @@
 const express = require("express");
 const router = express.Router();
-
+const AuthUser=require('../service/userAuth');
 const {getUsers, getUser, createUser, updateUser, removeUser} = require("../controllers/userController");
 
 // Fetch ALL reports from database
-router.get("/", getUsers);
+router.get("/",AuthUser, getUsers);
   
 // Fetch a single item from database
-router.get("/:id", getUser);
+router.get("/:id",AuthUser, getUser);
 
 // Add a new item to the database
-router.post("/create", createUser);
+router.post("/create",AuthUser, createUser);
   
 // Edit an attribute of an existing item
-router.put("/:id", updateUser);
+router.put("/:id",AuthUser, updateUser);
 
 // Remove an item from the database
-router.delete("/:id", removeUser);
+router.delete("/:id",AuthUser, removeUser);
 
 module.exports = router;
