@@ -5,18 +5,18 @@ const AuthUser=require('../service/userAuth');
 const {getProducts, getProduct, createProduct, updateProduct, removeProduct} = require("../controllers/sellerController");
 
 // Fetch ALL reports from database
-router.get("/",AuthUser, getProducts);
+router.get("/", getProducts);
   
 // Fetch a single item from database
-router.get("/:id",AuthUser, getProduct);
+router.get("/:id",getProduct);
 
 // Add a new item to the database
-router.post("/create",AuthUser, createProduct);
+router.post("/create", createProduct);
   
 // Edit an attribute of an existing item
-router.put("/:id/:uid",AuthUser, updateProduct);
+router.put("/:id/:uid", updateProduct);
 
 // Remove an item from the database
-router.delete("/:id/:uid",AuthUser, removeProduct);
+router.delete("/:id/:uid", removeProduct);
 
 module.exports = router;

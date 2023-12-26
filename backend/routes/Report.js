@@ -5,7 +5,7 @@ const Report = require("../models/report");
 const AuthUser=require("../service/userAuth");
 
 // Fetch All reports from database.
-router.get("/",AuthUser, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const reports = await Report.find();
     res.status(200).json(reports);
@@ -16,7 +16,7 @@ router.get("/",AuthUser, async (req, res) => {
 });
 
 // Fetch a single report from database.
-router.get("/:reportId",AuthUser, async (req, res) => {
+router.get("/:reportId", async (req, res) => {
     try {
       const report = await Report.findById(req.params.reportId);
   
@@ -32,7 +32,7 @@ router.get("/:reportId",AuthUser, async (req, res) => {
   });
 
 // Create a new report.
-router.post("/create",AuthUser, async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const report = await Report.create(req.body);
     return res.status(200).json(report);
@@ -43,7 +43,7 @@ router.post("/create",AuthUser, async (req, res) => {
 });
 
 // Update a report.
-router.put("/:reportId",AuthUser, async (req, res) => {
+router.put("/:reportId", async (req, res) => {
     try {
       const reportId = req.params.reportId;
       const updatedData = req.body;
@@ -65,7 +65,7 @@ router.put("/:reportId",AuthUser, async (req, res) => {
   });
 
 // Delete a report.
-router.delete("/:reportId",AuthUser, async (req, res) => {
+router.delete("/:reportId", async (req, res) => {
     try {
       const reportId = req.params.reportId;  
       const existingReport = await Report.findByIdAndRemove(reportId);
@@ -83,7 +83,7 @@ router.delete("/:reportId",AuthUser, async (req, res) => {
 })
 
 // Resolved the report
-router.put("/resolve/:reportId",AuthUser, async (req, res) => {
+router.put("/resolve/:reportId", async (req, res) => {
     try {
       const reportId = req.params.reportId;
       const existingReport = await Report.findById(reportId);

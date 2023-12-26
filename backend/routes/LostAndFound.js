@@ -4,24 +4,24 @@ const {getLostAndFoundOfUser,getLostAndFounds,getLostAndFound,createLostAndFound
 const AuthUser=require('../service/userAuth');
 
 // Fetch all lost and found entries
-router.get("/",AuthUser, getLostAndFounds);
+router.get("/", getLostAndFounds);
 
 // Fetch a single lost and found entry
-router.get("/:lostandfoundid",AuthUser, getLostAndFound);
+router.get("/:lostandfoundid", getLostAndFound);
 
 // Fetch user's lost and found entries
-router.get("/user/:uid",AuthUser, getLostAndFoundOfUser);
+router.get("/user/:uid", getLostAndFoundOfUser);
 
 // Create lost and found entry
-router.post("/create",AuthUser, createLostAndFound);
+router.post("/create", createLostAndFound);
 
 // Update lost and found entry
-router.put("/:lostandfoundid",AuthUser, updatedLostAndFound);
+router.put("/:lostandfoundid", updatedLostAndFound);
 
 // Delete lost and found entry
-router.delete("/:lostandfoundid",AuthUser, deleteLostAndFound)
+router.delete("/:lostandfoundid", deleteLostAndFound)
 
 // Resolve lost and found
-router.put("/resolve/:lostandfoundid",AuthUser, resolveLostAndFound)
+router.put("/resolve/:lostandfoundid",resolveLostAndFound)
 
 module.exports = router;
