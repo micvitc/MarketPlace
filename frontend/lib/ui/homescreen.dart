@@ -22,7 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  final List<Widget> pages = [MainPage(), LostFound(), Cart(), Profile()];
+  final List<Widget> pages = [
+    const MainPage(),
+    const LostFound(),
+    const Cart(),
+    const Profile()
+  ];
   int selectedpage = 0;
   @override
   Widget build(BuildContext context) {

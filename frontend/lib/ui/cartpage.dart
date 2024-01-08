@@ -90,7 +90,7 @@ class _CartState extends State<Cart> {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 Padding(
@@ -239,15 +239,15 @@ class _CartState extends State<Cart> {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: mcol.orange,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
                 child: Text(
                   "CheckOut",
                   style: GoogleFonts.barlow(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: mcol.orange,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
               ),
             ),
           )
