@@ -4,6 +4,7 @@ import 'package:vitmarketplace/modals/colors.dart';
 
 import 'cartpage.dart';
 import 'mainpage.dart';
+import 'profile.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.startingpage});
@@ -22,7 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  final List<Widget> pages = [MainPage(), LostFound(), Cart(), Profile()];
+  final List<Widget> pages = [
+    const MainPage(),
+    const LostFound(),
+    const Cart(),
+    const Profile(),
+  ];
   int selectedpage = 0;
   @override
   Widget build(BuildContext context) {
@@ -40,13 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
               width: size.width,
               height: size.height,
               child: PageView(
-                  onPageChanged: (value) {
-                    setState(() {
-                      selectedpage = value;
-                    });
-                  },
-                  controller: _pagecontroller,
-                  children: pages),
+                onPageChanged: (value) {
+                  setState(() {
+                    selectedpage = value;
+                  });
+                },
+                controller: _pagecontroller,
+                children: pages,
+              ),
             ),
             Positioned(
                 bottom: 0,
@@ -254,13 +261,6 @@ class _LostFoundState extends State<LostFound> {
   Widget build(BuildContext context) {
     return const Center(child: Text("Lost and Found"));
   }
-}
-
-class Profile extends StatefulWidget {
-  const Profile({super.key});
-
-  @override
-  State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {

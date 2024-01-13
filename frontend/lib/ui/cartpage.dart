@@ -62,16 +62,16 @@ class _CartState extends State<Cart> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Container(
+            child: SizedBox(
               height: size.height * 0.55,
               child: ListView.builder(
                   itemCount: samples.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         width: size.width,
-                        height: 180,
+                        height: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: mcol.lightblue),
@@ -90,7 +90,7 @@ class _CartState extends State<Cart> {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 Padding(
@@ -239,15 +239,15 @@ class _CartState extends State<Cart> {
               height: 60,
               child: ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: mcol.orange,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
                 child: Text(
                   "CheckOut",
                   style: GoogleFonts.barlow(
                       fontSize: 40, fontWeight: FontWeight.bold),
                 ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: mcol.orange,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
               ),
             ),
           )
