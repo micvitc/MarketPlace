@@ -62,16 +62,16 @@ class _CartState extends State<Cart> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Container(
+            child: SizedBox(
               height: size.height * 0.55,
               child: ListView.builder(
                   itemCount: samples.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      padding: const EdgeInsets.symmetric(vertical: 5.0),
                       child: Container(
                         width: size.width,
-                        height: 180,
+                        height: 150,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             color: mcol.lightblue),
