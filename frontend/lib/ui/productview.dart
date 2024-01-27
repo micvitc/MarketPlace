@@ -524,8 +524,14 @@ class _ProductViewState extends State<ProductView> {
                   ),
                 ),
                 Positioned(
-                    bottom: 8,
-                    child: SizedBox(
+                    bottom: 0,
+                    child: Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: mcol.lightblue),
                       width: size.width,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

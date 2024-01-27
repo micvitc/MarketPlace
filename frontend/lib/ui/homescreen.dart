@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vitmarketplace/modals/colors.dart';
+import 'package:vitmarketplace/ui/lostfoundpage.dart';
 
 import 'cartpage.dart';
 import 'mainpage.dart';
@@ -35,10 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final _pagecontroller = PageController(initialPage: selectedpage);
     Size size = MediaQuery.of(context).size;
     myColors mcol = myColors();
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SizedBox(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: SizedBox(
           height: size.height,
           width: size.width,
           child: Stack(children: [
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: size.width,
               height: size.height,
               child: PageView(
+                physics: NeverScrollableScrollPhysics(),
                 onPageChanged: (value) {
                   setState(() {
                     selectedpage = value;
@@ -246,26 +248,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-}
-
-class LostFound extends StatefulWidget {
-  const LostFound({super.key});
-
-  @override
-  State<LostFound> createState() => _LostFoundState();
-}
-
-class _LostFoundState extends State<LostFound> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Lost and Found"));
-  }
-}
-
-class _ProfileState extends State<Profile> {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text("Profile"));
   }
 }
