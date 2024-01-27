@@ -1,5 +1,7 @@
+import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vitmarketplace/modals/modals.dart';
 import 'package:vitmarketplace/ui/homescreen.dart';
 
 import '../modals/colors.dart';
@@ -112,7 +114,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPwdPage()));
+                      },
                       child: Text(
                         "Forgot Password?",
                         style: GoogleFonts.montserrat(
@@ -263,6 +270,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final namecontroller = TextEditingController();
   final emailcontroller = TextEditingController();
   final pwdcontroller = TextEditingController();
   final cnfpwdcontroller = TextEditingController();
@@ -279,11 +287,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           width: size.width,
           height: size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: size.height * 0.1),
+                padding: EdgeInsets.only(top: size.height * 0.05),
                 child: Text(
                   "SignUp",
                   style: GoogleFonts.barlow(
@@ -294,6 +302,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30.0),
+                child: Container(
+                  width: size.width * 0.9,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      color: mcol.lightblue,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Center(
+                      child: TextField(
+                        controller: namecontroller,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "Username",
+                            hintStyle: GoogleFonts.montserrat(
+                                fontSize: 28, fontWeight: FontWeight.w400)),
+                        style: GoogleFonts.montserrat(
+                            fontSize: 28, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
                 child: Container(
                   width: size.width * 0.9,
                   height: 70,
@@ -410,7 +443,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 60,
                   child: ElevatedButton(
                     onPressed: () {
-                      print(emailcontroller.text + " " + pwdcontroller.text);
+                      if (namecontroller.text.isNotEmpty &&
+                          emailcontroller.text.isNotEmpty &&
+                          pwdcontroller.text.isNotEmpty &&
+                          pwdcontroller.text == cnfpwdcontroller.text) {
+                        Navigator.pop(context);
+                        FloatingSnackBar(
+                            message: "User Registered.Please verify your email",
+                            context: context,
+                            textStyle: GoogleFonts.barlow(
+                              fontSize: 18,
+                            ));
+                      } else {
+                        FloatingSnackBar(
+                            message: "Please fill all the details",
+                            context: context,
+                            textStyle: GoogleFonts.barlow(
+                              fontSize: 28,
+                            ));
+                      }
+                      User currentUser = User(
+                          userName: namecontroller.text,
+                          userId: "userid",
+                          emailId: emailcontroller.text);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: mcol.orange,
@@ -494,7 +549,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: size.height * 0.1),
+                padding: EdgeInsets.only(top: size.height * 0.05),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -524,6 +579,148 @@ class _SignUpScreenState extends State<SignUpScreen> {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ForgotPwdPage extends StatefulWidget {
+  const ForgotPwdPage({super.key});
+
+  @override
+  State<ForgotPwdPage> createState() => _ForgotPwdPageState();
+}
+
+class _ForgotPwdPageState extends State<ForgotPwdPage> {
+  final emailcontroller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    myColors mcol = myColors();
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          height: size.height,
+          width: size.width,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Container(
+                    width: size.width,
+                    height: 70,
+                    color: mcol.lightblue,
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.keyboard_arrow_left,
+                                size: 40,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "Forgot Password",
+                            style: GoogleFonts.barlow(
+                              fontSize: 29,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Container(
+                            width: 50,
+                          )
+                        ]),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: size.width,
+                        child: Center(
+                          child: Text(
+                            "If you need help resetting your password,we can help by sending you a link to reset it",
+                            style: GoogleFonts.barlow(
+                                color: mcol.darkblueteal, fontSize: 28),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: Container(
+                          width: size.width * 0.9,
+                          height: 70,
+                          decoration: BoxDecoration(
+                              color: mcol.lightblue,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 25.0),
+                            child: Center(
+                              child: TextField(
+                                controller: emailcontroller,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Email Address",
+                                    hintStyle: GoogleFonts.montserrat(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w400)),
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 28, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 40),
+                        child: SizedBox(
+                          width: size.width * 0.4,
+                          height: 60,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              emailcontroller.text.isNotEmpty
+                                  ? FloatingSnackBar(
+                                      message: "Email Sent",
+                                      context: context,
+                                      textStyle: GoogleFonts.barlow(
+                                        fontSize: 24,
+                                      ))
+                                  : FloatingSnackBar(
+                                      message: "Please enter a valid Email",
+                                      context: context,
+                                      textStyle: GoogleFonts.barlow(
+                                        fontSize: 24,
+                                      ));
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: mcol.orange,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20))),
+                            child: Text(
+                              "Send",
+                              style: GoogleFonts.barlow(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ]),
         ),
       ),
     );
