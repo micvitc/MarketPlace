@@ -12,11 +12,14 @@ dependencies:
   intl: any
   provider: any
   google_fonts: any
-  email_validator: any
+  email_validator: ^2.1.17
   carousel_slider: any
   http: any
   url_strategy: ^0.2.0
   floating_snackbar: any
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  cloud_firestore: ^4.14.0
 
 
 dev_dependencies:

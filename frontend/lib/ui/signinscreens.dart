@@ -1,7 +1,8 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vitmarketplace/modals/modals.dart';
 import 'package:vitmarketplace/ui/homescreen.dart';
 
 import '../modals/colors.dart';
@@ -134,14 +135,57 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: size.width * 0.9,
                   height: 60,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       print(emailcontroller.text + " " + pwdcontroller.text);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => HomeScreen(
-                                    startingpage: 0,
-                                  )));
+                      if (emailcontroller.text.isNotEmpty &&
+                          pwdcontroller.text.isNotEmpty &&
+                          EmailValidator.validate(emailcontroller.text)) {
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: emailcontroller.text,
+                                password: pwdcontroller.text)
+                            .then((value) async {
+                          User? user = FirebaseAuth.instance.currentUser;
+                          if (user!.emailVerified) {
+                            print(
+                                '${FirebaseAuth.instance.currentUser?.uid!} ${FirebaseAuth.instance.currentUser?.displayName}');
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen(
+                                          startingpage: 0,
+                                        )));
+                          } else {
+                            FloatingSnackBar(
+                                message: "Verify Your Email",
+                                context: context,
+                                textStyle: GoogleFonts.barlow(
+                                  fontSize: 28,
+                                ));
+                            await FirebaseAuth.instance.currentUser!
+                                .sendEmailVerification();
+                            await FirebaseAuth.instance.signOut();
+                          }
+                        }).catchError((e) {
+                          if (e.toString() ==
+                              "[firebase_auth/invalid-credential] The supplied auth credential is incorrect, malformed or has expired.") {
+                            FloatingSnackBar(
+                                message: "Incorrect email/password",
+                                context: context,
+                                textStyle: GoogleFonts.barlow(
+                                  fontSize: 28,
+                                ));
+                          }
+                        });
+                      } else {
+                        FloatingSnackBar(
+                            message: "Please fill all the details",
+                            context: context,
+                            textStyle: GoogleFonts.barlow(
+                              fontSize: 28,
+                            ));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: mcol.orange,
@@ -442,18 +486,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: size.width * 0.9,
                   height: 60,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (namecontroller.text.isNotEmpty &&
                           emailcontroller.text.isNotEmpty &&
                           pwdcontroller.text.isNotEmpty &&
-                          pwdcontroller.text == cnfpwdcontroller.text) {
-                        Navigator.pop(context);
-                        FloatingSnackBar(
-                            message: "User Registered.Please verify your email",
-                            context: context,
-                            textStyle: GoogleFonts.barlow(
-                              fontSize: 18,
-                            ));
+                          pwdcontroller.text == cnfpwdcontroller.text &&
+                          EmailValidator.validate(emailcontroller.text)) {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                                email: emailcontroller.text,
+                                password: pwdcontroller.text);
+                        await FirebaseAuth.instance.currentUser!
+                            .updateDisplayName(namecontroller.text);
+                        await FirebaseAuth.instance.currentUser!
+                            .sendEmailVerification();
+                        await FirebaseAuth.instance.signOut().then((value) {
+                          Navigator.pop(context);
+                          FloatingSnackBar(
+                              message:
+                                  "User Registered.Please verify your email",
+                              context: context,
+                              textStyle: GoogleFonts.barlow(
+                                fontSize: 18,
+                              ));
+                        });
                       } else {
                         FloatingSnackBar(
                             message: "Please fill all the details",
@@ -462,10 +518,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               fontSize: 28,
                             ));
                       }
-                      User currentUser = User(
-                          userName: namecontroller.text,
-                          userId: "userid",
-                          emailId: emailcontroller.text);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: mcol.orange,
