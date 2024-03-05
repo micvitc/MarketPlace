@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vitmarketplace/modals/modals.dart';
+import 'package:vitmarketplace/services/apiFunctions.dart';
 import 'package:vitmarketplace/ui/homescreen.dart';
 
 import '../modals/colors.dart';
@@ -18,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailcontroller = TextEditingController();
   final pwdcontroller = TextEditingController();
   bool pwdvisible = false;
+  apiCalls myapi = apiCalls();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -140,6 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (emailcontroller.text.isNotEmpty &&
                           pwdcontroller.text.isNotEmpty &&
                           EmailValidator.validate(emailcontroller.text)) {
+
                         await FirebaseAuth.instance
                             .signInWithEmailAndPassword(
                                 email: emailcontroller.text,
@@ -147,15 +153,36 @@ class _LoginScreenState extends State<LoginScreen> {
                             .then((value) async {
                           User? user = FirebaseAuth.instance.currentUser;
                           if (user!.emailVerified) {
-                            print(
-                                '${FirebaseAuth.instance.currentUser?.uid!} ${FirebaseAuth.instance.currentUser?.displayName}');
-
-                            Navigator.pushReplacement(
+                            String userID= user.uid!;
+                            String userName = user.displayName!;
+                            if(await myapi.userAvail(userID)==true){
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen(
+                                        startingpage: 0,
+                                      )));
+                            }else{
+                              UserClass currentUser = UserClass(userName: userName, userId: userID, emailId: emailcontroller.text);
+                              String jsonData = jsonEncode(currentUser.toJson());
+                              int statusCode = await myapi.addUser(jsonData);
+                              if(statusCode==200){
+                                Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => HomeScreen(
                                           startingpage: 0,
                                         )));
+                              }else{
+                                FloatingSnackBar(
+                                    message: "An error has occured",
+                                    context: context,
+                                    textStyle: GoogleFonts.barlow(
+                                      fontSize: 28,
+                                    ));
+                              }
+                            }
+
                           } else {
                             FloatingSnackBar(
                                 message: "Verify Your Email",
@@ -492,6 +519,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           pwdcontroller.text.isNotEmpty &&
                           pwdcontroller.text == cnfpwdcontroller.text &&
                           EmailValidator.validate(emailcontroller.text)) {
+
                         await FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: emailcontroller.text,
